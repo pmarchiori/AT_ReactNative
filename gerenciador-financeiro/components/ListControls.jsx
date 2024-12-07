@@ -1,4 +1,3 @@
-import { Picker } from "@react-native-picker/picker";
 import React, { useState } from "react";
 import {
   View,
@@ -8,6 +7,7 @@ import {
   Text,
   useWindowDimensions,
 } from "react-native";
+import { Picker } from "@react-native-picker/picker";
 
 const ListControls = ({ onApply }) => {
   const [type, setType] = useState("");

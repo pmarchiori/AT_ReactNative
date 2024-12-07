@@ -2,9 +2,8 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import AuthenticationScreen from "./screens/AuthenticationScreen";
-import TransacaoListScreen from "./screens/TransacaoListScreen";
 import TransacaoFormScreen from "./screens/TransacaoFormScreen";
+import TransacaoListScreen from "./screens/TransacaoListScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -32,22 +31,17 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Auth">
+      <Stack.Navigator initialRouteName="TransacaoList">
         <Stack.Screen
-          name="Auth"
-          component={AuthenticationScreen}
-          options={{ title: "Login ou Registro" }}
+          name="TransacaoForm"
+          component={TransacaoFormScreen}
+          options={{ title: "Nova Transação" }}
         />
         <Stack.Screen
           name="TransacaoList"
           component={TransacaoListScreen}
           initialParams={{ transacoes }}
           options={{ title: "Lista de Transações" }}
-        />
-        <Stack.Screen
-          name="TransacaoForm"
-          component={TransacaoFormScreen}
-          options={{ title: "Nova Transação" }}
         />
       </Stack.Navigator>
     </NavigationContainer>

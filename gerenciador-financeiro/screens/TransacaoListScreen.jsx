@@ -1,15 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Pressable, Text } from "react-native";
+
 import ListControls from "../components/ListControls";
 import TransacaoList from "../components/TransacaoList";
 
-const TransacaoListScreen = ({ route, navigation }) => {
+export default function TransacaoListScreen({ route, navigation }) {
   const { transacoes } = route.params;
 
   const [filteredTransactions, setFilteredTransactions] = useState(transacoes);
+  const [allTransactions, setAllTransactions] = useState(transacoes);
+
+  useEffect(() => {
+    if (route.params?.novaTransacao) {
+      const novaTransacao = route.params.novaTransacao;
+      setAllTransactions((prevTransactions) => [
+        ...prevTransactions,
+        novaTransacao,
+      ]);
+      setFilteredTransactions((prevTransactions) => [
+        ...prevTransactions,
+        novaTransacao,
+      ]);
+    }
+  }, [route.params?.novaTransacao]);
 
   const handleSortAndFilter = (filters) => {
-    let sortedAndFiltered = [...transacoes];
+    let sortedAndFiltered = [...allTransactions];
 
     if (filters.type) {
       sortedAndFiltered = sortedAndFiltered.filter(
@@ -34,19 +50,17 @@ const TransacaoListScreen = ({ route, navigation }) => {
   return (
     <View style={styles.container}>
       <ListControls onApply={handleSortAndFilter} />
-      <TransacaoList transactions={filteredTransactions} />
+      <TransacaoList transacoes={filteredTransactions} />
 
       <Pressable
         style={styles.floatingButton}
-        onPress={() => {
-          navigation.navigate("TransacaoForm");
-        }}
+        onPress={() => navigation.navigate("TransacaoForm")}
       >
         <Text style={styles.floatingButtonText}>+</Text>
       </Pressable>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -70,5 +84,3 @@ const styles = StyleSheet.create({
     color: "white",
   },
 });
-
-export default TransacaoListScreen;

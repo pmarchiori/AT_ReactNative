@@ -1,8 +1,9 @@
 import React from "react";
 import { View, FlatList, StyleSheet } from "react-native";
+
 import TransacaoItemList from "./TransacaoItemList";
 
-const TransacaoList = ({ transactions }) => {
+const TransacaoList = ({ transacoes }) => {
   const renderItem = ({ item }) => (
     <TransacaoItemList
       descricao={item.descricao}
@@ -18,7 +19,7 @@ const TransacaoList = ({ transactions }) => {
   return (
     <View style={styles.container}>
       <FlatList
-        data={transactions}
+        data={transacoes}
         renderItem={renderItem}
         keyExtractor={(item, index) => index.toString()}
       />
