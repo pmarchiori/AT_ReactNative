@@ -19,15 +19,12 @@ const TransacaoItemList = ({
     };
 
     updateOrientation();
-
     const subscription = Dimensions.addEventListener(
       "change",
       updateOrientation
     );
 
-    return () => {
-      subscription.remove();
-    };
+    return () => subscription.remove();
   }, []);
 
   return (

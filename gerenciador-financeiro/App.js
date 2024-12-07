@@ -1,14 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import TransacaoFormScreen from "./screens/TransacaoFormScreen";
 import TransacaoListScreen from "./screens/TransacaoListScreen";
+import AuthenticationScreen from "./screens/AuthenticationScreen";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  const transacoes = [
+  const [transacoes, setTransacoes] = useState([
     {
       descricao: "Compra no supermercado",
       valor: 200.5,
@@ -27,21 +28,26 @@ export default function App() {
       tipo: "receita",
       moeda: "BRL",
     },
-  ];
+  ]);
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="TransacaoList">
+      <Stack.Navigator initialRouteName="Auth">
         <Stack.Screen
-          name="TransacaoForm"
-          component={TransacaoFormScreen}
-          options={{ title: "Nova Transação" }}
+          name="Auth"
+          component={AuthenticationScreen}
+          options={{ title: "Login ou Registro" }}
         />
         <Stack.Screen
           name="TransacaoList"
           component={TransacaoListScreen}
           initialParams={{ transacoes }}
           options={{ title: "Lista de Transações" }}
+        />
+        <Stack.Screen
+          name="TransacaoForm"
+          component={TransacaoFormScreen}
+          options={{ title: "Nova Transação" }}
         />
       </Stack.Navigator>
     </NavigationContainer>

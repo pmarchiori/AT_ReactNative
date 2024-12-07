@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
   View,
   StyleSheet,
-  TextInput,
   Pressable,
   Text,
   useWindowDimensions,
@@ -27,12 +26,16 @@ const ListControls = ({ onApply }) => {
         isHorizontal && styles.horizontalContainer,
       ]}
     >
-      <TextInput
-        style={[styles.input, isHorizontal && styles.horizontalInput]}
-        placeholder="Filtrar por tipo (receita/despesa)"
-        value={type}
-        onChangeText={(text) => setType(text)}
-      />
+      <Picker
+        selectedValue={type}
+        onValueChange={(value) => setType(value)}
+        style={[styles.picker, isHorizontal && styles.horizontalPicker]}
+      >
+        <Picker.Item label="Filtrar por tipo" value="" />
+        <Picker.Item label="Receita" value="receita" />
+        <Picker.Item label="Despesa" value="despesa" />
+      </Picker>
+
       <Picker
         selectedValue={sortBy}
         onValueChange={(value) => setSortBy(value)}
@@ -42,6 +45,7 @@ const ListControls = ({ onApply }) => {
         <Picker.Item label="Ordenar por valor" value="valor" />
         <Picker.Item label="Ordenar por descrição" value="descricao" />
       </Picker>
+
       <Pressable
         style={[styles.applyButton, isHorizontal && styles.horizontalButton]}
         onPress={handleApply}
@@ -60,19 +64,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    padding: 8,
-    borderRadius: 5,
-    backgroundColor: "#fff",
-    marginBottom: 10,
-  },
-  horizontalInput: {
-    flex: 1,
-    marginRight: 10,
-    marginBottom: 0,
   },
   picker: {
     height: 60,
