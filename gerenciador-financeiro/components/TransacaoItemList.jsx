@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Dimensions, Alert, Image } from "react-native";
 import {
@@ -37,7 +38,7 @@ const TransacaoItemList = ({
 
   const renderLeftActions = () => (
     <View style={[styles.actionContainer, styles.editAction]}>
-      <Pressable onPress={onEdit}>
+      <Pressable onPress={handleEditPress}>
         <Image
           source={require("../assets/edit.png")}
           style={styles.actionIcon}
@@ -56,6 +57,23 @@ const TransacaoItemList = ({
       </Pressable>
     </View>
   );
+
+  const handleEditPress = () => {
+    if (onEdit) {
+      onEdit();
+    } else if (navigation) {
+      navigation.navigate("TransacaoShow", {
+        id,
+        descricao,
+        valor,
+        data,
+        hora,
+        categoria,
+        tipo,
+        moeda,
+      });
+    }
+  };
 
   return (
     <GestureHandlerRootView>

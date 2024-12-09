@@ -6,6 +6,7 @@ import TransacaoFormScreen from "./screens/TransacaoFormScreen";
 import TransacaoListScreen from "./screens/TransacaoListScreen";
 import AuthenticationScreen from "./screens/AuthenticationScreen";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import TransacaoShow from "./components/TransacaoShow";
 
 const Stack = createNativeStackNavigator();
 
@@ -50,6 +51,11 @@ export default function App() {
             name="TransacaoForm"
             component={TransacaoFormScreen}
             options={{ title: "Nova Transação" }}
+          />
+          <Stack.Screen
+            name="TransacaoShow"
+            component={TransacaoShow}
+            options={{ title: "Detalhes da transação" }}
           />
         </Stack.Navigator>
       </NavigationContainer>

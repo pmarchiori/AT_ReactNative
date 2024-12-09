@@ -1,22 +1,23 @@
 import React from "react";
 import { View, FlatList, StyleSheet } from "react-native";
 import TransacaoItemList from "./TransacaoItemList";
+import { useNavigation } from "@react-navigation/native";
 
 const TransacaoList = ({ transacoes, onDelete }) => {
+  const navigation = useNavigation();
   const renderItem = ({ item }) => (
     <TransacaoItemList
-      id={item.id}
-      descricao={item.descricao}
-      valor={item.valor}
-      data={item.data}
-      hora={item.hora}
-      categoria={item.categoria}
-      tipo={item.tipo}
-      moeda={item.moeda}
+      {...item}
       onDelete={() => onDelete(item.id)}
-      onEdit={() => Alert.alert("Editar item!")}
+      onEdit={() => handleEdit(item.id)} // Navega para TransacaoShow com os dados da transação
     />
   );
+
+  const handleEdit = (id) => {
+    navigation.navigate("TransacaoShow", {
+      ...transacoes.find((item) => item.id === id),
+    });
+  };
 
   return (
     <View style={styles.container}>
