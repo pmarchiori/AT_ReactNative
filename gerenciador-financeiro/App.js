@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import TransacaoFormScreen from "./screens/TransacaoFormScreen";
 import TransacaoListScreen from "./screens/TransacaoListScreen";
 import AuthenticationScreen from "./screens/AuthenticationScreen";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const Stack = createNativeStackNavigator();
 
@@ -31,25 +32,27 @@ export default function App() {
   ]);
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Auth">
-        <Stack.Screen
-          name="Auth"
-          component={AuthenticationScreen}
-          options={{ title: "Login ou Registro" }}
-        />
-        <Stack.Screen
-          name="TransacaoList"
-          component={TransacaoListScreen}
-          initialParams={{ transacoes }}
-          options={{ title: "Lista de Transações" }}
-        />
-        <Stack.Screen
-          name="TransacaoForm"
-          component={TransacaoFormScreen}
-          options={{ title: "Nova Transação" }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <GestureHandlerRootView>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Auth">
+          <Stack.Screen
+            name="Auth"
+            component={AuthenticationScreen}
+            options={{ title: "Login ou Registro" }}
+          />
+          <Stack.Screen
+            name="TransacaoList"
+            component={TransacaoListScreen}
+            initialParams={{ transacoes }}
+            options={{ title: "Lista de Transações" }}
+          />
+          <Stack.Screen
+            name="TransacaoForm"
+            component={TransacaoFormScreen}
+            options={{ title: "Nova Transação" }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </GestureHandlerRootView>
   );
 }

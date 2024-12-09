@@ -41,6 +41,14 @@ export default function TransacaoListScreen({ navigation }) {
     });
   };
 
+  const handleDeleteTransaction = (id) => {
+    const novasTransacoes = transacoes.filter(
+      (transacao) => transacao.id !== id
+    );
+    setTransacoes(novasTransacoes);
+    setFilteredTransacoes(novasTransacoes);
+  };
+
   const ordenarTransacoes = (transacoes, sortBy) => {
     return transacoes.sort((a, b) => {
       if (sortBy === "data") {
@@ -71,9 +79,11 @@ export default function TransacaoListScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Lista de Transações</Text>
       <ListControls onApply={handleApplyFilters} />
-      <TransacaoList transacoes={filteredTransacoes} />
+      <TransacaoList
+        transacoes={filteredTransacoes}
+        onDelete={handleDeleteTransaction}
+      />
       <Pressable style={styles.floatingButton} onPress={handleAddTransaction}>
         <Text style={styles.floatingButtonText}>+</Text>
       </Pressable>
@@ -85,12 +95,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#f8f8f8",
-    padding: 16,
-  },
-  header: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 10,
+    padding: 8,
   },
   floatingButton: {
     position: "absolute",

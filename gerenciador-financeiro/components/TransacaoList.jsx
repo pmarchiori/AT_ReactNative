@@ -1,10 +1,11 @@
 import React from "react";
 import { View, FlatList, StyleSheet } from "react-native";
-import TransacaoItemList from "./TransacaoItemList"; // Componente para exibir detalhes de cada transação
+import TransacaoItemList from "./TransacaoItemList";
 
-const TransacaoList = ({ transacoes }) => {
+const TransacaoList = ({ transacoes, onDelete }) => {
   const renderItem = ({ item }) => (
     <TransacaoItemList
+      id={item.id}
       descricao={item.descricao}
       valor={item.valor}
       data={item.data}
@@ -12,6 +13,8 @@ const TransacaoList = ({ transacoes }) => {
       categoria={item.categoria}
       tipo={item.tipo}
       moeda={item.moeda}
+      onDelete={() => onDelete(item.id)}
+      onEdit={() => Alert.alert("Editar item!")}
     />
   );
 
@@ -20,7 +23,7 @@ const TransacaoList = ({ transacoes }) => {
       <FlatList
         data={transacoes}
         renderItem={renderItem}
-        keyExtractor={(item) => `${item.id || item.descricao}-${item.data}`}
+        keyExtractor={(item) => `${item.id}`}
       />
     </View>
   );

@@ -66,7 +66,6 @@ export default function TransacaoForm({ onSave, onCancel }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Nova Transação</Text>
       <TextInput
         style={styles.input}
         placeholder="Descrição"
@@ -138,8 +137,10 @@ export default function TransacaoForm({ onSave, onCancel }) {
           />
         ))}
       </Picker>
-      <Button title="Salvar" onPress={handleSave} />
-      <Button title="Cancelar" onPress={onCancel} />
+      <View style={styles.btnContainer}>
+        <Button title="Salvar" onPress={handleSave} />
+        <Button title="Cancelar" onPress={onCancel} />
+      </View>
     </View>
   );
 }
@@ -174,5 +175,10 @@ const styles = StyleSheet.create({
   picker: {
     height: 50,
     marginBottom: 15,
+  },
+  btnContainer: {
+    flex: 1,
+    padding: 20,
+    gap: 20,
   },
 });

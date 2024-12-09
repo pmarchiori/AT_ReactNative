@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, Dimensions } from "react-native";
+import { View, Text, StyleSheet, Dimensions, Alert, Image } from "react-native";
+import {
+  GestureHandlerRootView,
+  Pressable,
+} from "react-native-gesture-handler";
+import ReanimatedSwipeable from "react-native-gesture-handler/ReanimatedSwipeable";
 
 const TransacaoItemList = ({
+  id,
   descricao,
   valor,
   data,
@@ -9,6 +15,8 @@ const TransacaoItemList = ({
   categoria,
   tipo,
   moeda,
+  onDelete,
+  onEdit,
 }) => {
   const [isLandscape, setIsLandscape] = useState(false);
 
@@ -27,26 +35,61 @@ const TransacaoItemList = ({
     return () => subscription.remove();
   }, []);
 
-  return (
-    <View
-      style={[
-        styles.container,
-        tipo === "receita" ? styles.receita : styles.despesa,
-      ]}
-    >
-      <Text style={styles.descricao}>{descricao}</Text>
-      <Text style={styles.valor}>
-        {moeda} {valor.toFixed(2)}
-      </Text>
-      <Text style={styles.data}>{data}</Text>
-
-      {isLandscape && (
-        <>
-          <Text style={styles.hora}>{hora}</Text>
-          <Text style={styles.categoria}>{categoria}</Text>
-        </>
-      )}
+  const renderLeftActions = () => (
+    <View style={[styles.actionContainer, styles.editAction]}>
+      <Pressable onPress={onEdit}>
+        <Image
+          source={require("../assets/edit.png")}
+          style={styles.actionIcon}
+        />
+      </Pressable>
     </View>
+  );
+
+  const renderRightActions = () => (
+    <View style={[styles.actionContainer, styles.deleteAction]}>
+      <Pressable onPress={() => onDelete(id)}>
+        <Image
+          source={require("../assets/delete.png")}
+          style={styles.actionIcon}
+        />
+      </Pressable>
+    </View>
+  );
+
+  return (
+    <GestureHandlerRootView>
+      <ReanimatedSwipeable
+        renderLeftActions={renderLeftActions}
+        onSwipeableLeftOpen={() => {
+          if (onEdit) onEdit();
+        }}
+        renderRightActions={renderRightActions}
+        onSwipeableRightOpen={() => {
+          if (onDelete) onDelete(id);
+        }}
+      >
+        <View
+          style={[
+            styles.container,
+            tipo === "receita" ? styles.receita : styles.despesa,
+          ]}
+        >
+          <Text style={styles.descricao}>{descricao}</Text>
+          <Text style={styles.valor}>
+            {moeda} {valor.toFixed(2)}
+          </Text>
+          <Text style={styles.data}>{data}</Text>
+
+          {isLandscape && (
+            <>
+              <Text style={styles.hora}>{hora}</Text>
+              <Text style={styles.categoria}>{categoria}</Text>
+            </>
+          )}
+        </View>
+      </ReanimatedSwipeable>
+    </GestureHandlerRootView>
   );
 };
 
@@ -89,6 +132,16 @@ const styles = StyleSheet.create({
     fontStyle: "italic",
     color: "#777",
     marginTop: 5,
+  },
+  actionContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: 80,
+  },
+
+  actionIcon: {
+    width: 24,
+    height: 24,
   },
 });
 
