@@ -2,8 +2,8 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import GalleryScreen from "./src/screens/GalleryScreen";
-import ImageDetailScreen from "./src/screens/ImageDetailScreen";
+import ListScreen from "./src/screens/ListScreen";
+import DetailsScreen from "./src/screens/DetailsScreen";
 
 const Stack = createStackNavigator();
 
@@ -12,13 +12,13 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
-          name="GalleryScreen"
-          component={GalleryScreen}
-          options={{ title: "Galera Nasa" }}
+          name="ListScreen"
+          component={ListScreen}
+          options={{ title: "Galeria Nasa" }}
         />
         <Stack.Screen
-          name="ImageDetailScreen"
-          component={ImageDetailScreen}
+          name="DetailsScreen"
+          component={DetailsScreen}
           options={{ title: "Detalhes da imagem" }}
         />
       </Stack.Navigator>

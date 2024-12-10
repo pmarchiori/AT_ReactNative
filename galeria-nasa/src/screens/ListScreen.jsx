@@ -4,34 +4,33 @@ import {
   Text,
   FlatList,
   Image,
-  Button,
   StyleSheet,
   ActivityIndicator,
   TouchableOpacity,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
-import ProgressBar from "react-native-progress/Bar";
 import { useNavigation } from "@react-navigation/native";
 
-import ImageGallery from "../components/ImageGallery";
+import ImageList from "../components/ImageList";
+import ProgressBarComponent from "../components/ProgressBar";
 
-export default function GalleryScreen() {
+export default function ListScreen() {
   const {
     category,
-    imageList,
-    isLoading,
-    isRefreshing,
-    progressValue,
-    flatListReference,
     changeCategory,
+    imageList,
+    isRefreshing,
+    isLoading,
     loadMoreImages,
     refreshGallery,
+    progressValue,
+    flatListReference,
     trackScroll,
-  } = ImageGallery();
+  } = ImageList();
 
   const navigation = useNavigation();
 
-  const renderGalleryItem = ({ item }) => {
+  const renderListItem = ({ item }) => {
     const imageUrl = item.links?.[0]?.href;
 
     return (
@@ -40,7 +39,7 @@ export default function GalleryScreen() {
           <TouchableOpacity
             style={styles.imageContainer}
             onPress={() =>
-              navigation.navigate("ImageDetailScreen", { image: item })
+              navigation.navigate("DetailsScreen", { image: item })
             }
           >
             <Image source={{ uri: imageUrl }} style={styles.image} />
@@ -60,33 +59,28 @@ export default function GalleryScreen() {
         style={styles.selector}
         onValueChange={changeCategory}
       >
-        <Picker.Item label="Earth" value="earth" />
-        <Picker.Item label="Moon" value="moon" />
-        <Picker.Item label="Sun" value="sun" />
-        <Picker.Item label="Mars" value="mars" />
+        <Picker.Item label="Terra" value="earth" />
+        <Picker.Item label="Lua" value="moon" />
+        <Picker.Item label="Sol" value="sun" />
+        <Picker.Item label="Mercurio" value="mercury" />
+        <Picker.Item label="Marte" value="mars" />
+        <Picker.Item label="Vênus" value="venus" />
         <Picker.Item label="Jupiter" value="jupiter" />
       </Picker>
 
-      <ProgressBar
-        progress={progressValue}
-        width={null}
-        style={styles.progress}
-        color="rebeccapurple"
-      />
-
       <FlatList
         data={imageList}
-        renderItem={renderGalleryItem}
+        renderItem={renderListItem}
         columnWrapperStyle={styles.rowWrapper}
         numColumns={2}
         onEndReached={loadMoreImages}
         onEndReachedThreshold={0.5}
-        keyExtractor={(index) => index.toString()}
+        keyExtractor={(item, index) => index.toString()}
         ListFooterComponent={
           isLoading ? (
             <ActivityIndicator
               size="large"
-              color="#0000ff"
+              color="rebeccapurple"
               style={styles.loader}
             />
           ) : null
@@ -96,6 +90,7 @@ export default function GalleryScreen() {
         onScroll={trackScroll}
         ref={flatListReference}
       />
+      <ProgressBarComponent progressValue={progressValue} />
     </View>
   );
 }
@@ -103,7 +98,7 @@ export default function GalleryScreen() {
 const styles = StyleSheet.create({
   card: {
     flex: 1,
-    marginBottom: 10,
+    marginBottom: 5,
     alignItems: "center",
   },
   imageContainer: {
@@ -122,21 +117,17 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   selector: {
-    height: 30,
+    height: 50,
     width: "100%",
-    marginBottom: 10,
+    borderColor: "black",
+    borderWidth: 1,
+    borderRadius: 5,
+    paddingHorizontal: 10,
   },
   rowWrapper: {
     justifyContent: "space-between",
   },
-  progress: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    height: 10,
-  },
   loader: {
-    margin: 20,
+    margin: 30,
   },
 });

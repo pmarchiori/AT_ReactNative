@@ -1,5 +1,6 @@
 import axios from "axios";
 
+//uri = url + recurso
 const NASA_API_URL = "https://images-api.nasa.gov/search";
 
 const fetchImages = async (query, page = 1) => {

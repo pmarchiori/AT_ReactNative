@@ -1,12 +1,12 @@
 import { useState, useEffect, useRef } from "react";
 import nasaApi from "../api/nasaApi";
 
-export default function ImageGallery() {
+export default function ImageList() {
   const [category, setCategory] = useState("earth");
   const [imageList, setImageList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [progressValue, setProgressValue] = useState(0);
   const flatListReference = useRef(null);
 
@@ -27,22 +27,18 @@ export default function ImageGallery() {
     setCurrentPage((prevPage) => Math.max(prevPage + step, 1));
   };
 
-  useEffect(() => {
-    fetchImages();
-  }, [category, currentPage]);
-
-  const loadMoreImages = () => {
-    if (!isLoading) {
-      setCurrentPage((prevPage) => prevPage + 1);
-    }
-  };
-
   const refreshGallery = async () => {
     setIsRefreshing(true);
     setCurrentPage(1);
     setImageList([]);
     await fetchImages();
     setIsRefreshing(false);
+  };
+
+  const loadMoreImages = () => {
+    if (!isLoading) {
+      setCurrentPage((prevPage) => prevPage + 1);
+    }
   };
 
   const trackScroll = (event) => {
@@ -53,12 +49,16 @@ export default function ImageGallery() {
     setProgressValue(scrollPercentage);
   };
 
+  useEffect(() => {
+    fetchImages();
+  }, [category, currentPage]);
+
   return {
     category,
     imageList,
     currentPage,
-    isLoading,
     isRefreshing,
+    isLoading,
     progressValue,
     flatListReference,
     changeCategory,
